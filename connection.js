@@ -79,7 +79,7 @@ function viewEmployees() {
   })
 };
 function viewDepartments() {
-  let queryString = "SELECT department.dept_name AS departments FROM department;";
+  let queryString = 'SELECT * FROM department';
   connection.query(queryString, function (err, res) {
     if (err) throw err;
     console.table('All Departments:', res);
@@ -180,33 +180,34 @@ function addRole() {
     });
 }
 function updateRole() {
-  let queryString = 'SELECT * FROM employee';
-  let updatedEmployee = [];
-  for (let i = 0; i < queryString.length; i++) {
-    const updatedEmployeeEl = queryString[i];
-    console.log(updatedEmployeeEl);
-    
-  }
-  inquirer.prompt([
+  let queryString = 'SELECT employee.first_name , employee.last_name ,employee.id  FROM employee';
+  let updatedEmployeeList = [];
+  connection.query(queryString, function (err, res) {
+    if (err) throw err;
+    res.forEach((element) => {
+      updatedEmployeeList.push(`${element.id} ${element.first_name} ${element.last_name}`);
+      // console.log(updatedEmployeeList)
+    })
+    inquirer.prompt([
       {
-          message: "which employee would you like to update?",
-          type: "input",
-          name: "name"
+        message: "which employee would you like to update?",
+        type: "list",
+        name: "name",
+        choices: updatedEmployeeList
       }, {
-          message: "enter the new role ID:",
-          type: "number",
-          name: "role_id"
-      }
-  ]).then(function (response) {
-      connection.query("UPDATE employee SET role_id = ? WHERE first_name = ?", [response.role_id, response.name], function (err, data) {
-          console.table(response);
+        message: "enter the new role id:",
+        type: "list",
+        name: "role_id",
+        choices: [{ name: 'Web Developer', value: 1 }, { name: 'Accountant', value: 2 }, { name: 'Paralegal', value: 3 }, { name: 'Manager', value: 4 }, { name: 'Engineer', value: 5 }, { name: 'Sales-rep', value: 6 }]
+      },
+    ]).then(function (response) {
+      // console.log(response.name.charAt(0));
+      connection.query("UPDATE employee SET role_id = ? WHERE id = ?", [response.role_id, parseInt(response.name.charAt(0))], function (err, data) {
+        // console.table(data);
+        viewEmployees()
       })
-      viewEmployees();
-  start();
+      // viewEmployees();
+      // start();
+    })
   })
-
 }
-// connection.query('UPDATE users SET foo = ?, bar = ?, baz = ? WHERE id = ?', ['a', 'b', 'c', userId], function (error, results, fields) {
-//   if (error) throw error;
-//   // ...
-// });
