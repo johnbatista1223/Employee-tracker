@@ -15,7 +15,6 @@ connection.connect((err) => {
   if (err) throw err;
   console.log(`welcome to employee tracker`);
   start()
-  // connection.end();
 });
 
 function start() {
@@ -189,7 +188,6 @@ function updateRole() {
     if (err) throw err;
     res.forEach((element) => {
       updatedEmployeeList.push(`${element.id} ${element.first_name} ${element.last_name}`);
-      // console.log(updatedEmployeeList)
     })
     inquirer.prompt([
       {
@@ -218,7 +216,7 @@ function deleteEmployee() {
       const deleteEmployeeChoices = res.map(({ id, first_name, last_name }) => ({
         value: id, name: `${id} ${first_name} ${last_name}`
       }));
-      // console.log(updatedEmployeeList)
+
     
     inquirer.prompt([
       {
@@ -235,22 +233,6 @@ function deleteEmployee() {
     })
   })
 }
-// const deleteEmployee = () => {
-//   console.log('DELETE FROM employee');
-//   connection.query(
-//     'DELETE FROM employee WHERE ?',
-//     {
-//       first_name: 'chocolate',
-//       last_name:
-//     },
-//     (err, res) => {
-//       if (err) throw err;
-//      start()
-//     }
-//   );
-// };
-
-
 function exitApp() {
   connection.end();
   console.log("Have a good one!");
