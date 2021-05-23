@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
   if (err) throw err;
-  console.log(`welcome to employye tracker`);
+  console.log(`welcome to employee tracker`);
   start()
   // connection.end();
 });
@@ -211,6 +211,44 @@ function updateRole() {
     })
   })
 }
+function deleteEmployee() {
+  let queryString = 'SELECT employee.first_name , employee.last_name ,employee.id  FROM employee';
+  let updatedEmployeeList = [];
+  connection.query(queryString, function (err, res) {
+    if (err) throw err;
+    res.forEach((element) => {
+      updatedEmployeeList.push(`${element.id} ${element.first_name} ${element.last_name}`);
+      // console.log(updatedEmployeeList)
+    })
+    inquirer.prompt([
+      {
+        message: "which employee would you like to delete?",
+        type: "list",
+        name: "name",
+        choices: updatedEmployeeList
+      },
+    ]).then(function (response) {
+      connection.query("DELETE FROM employee WHERE ?", [response.first_name,response.last_name], function (err, data) {
+        viewEmployees()
+      })
+      
+    })
+  })
+}
+// const deleteEmployee = () => {
+//   console.log('DELETE FROM employee');
+//   connection.query(
+//     'DELETE FROM employee WHERE ?',
+//     {
+//       first_name: 'chocolate',
+//       last_name:
+//     },
+//     (err, res) => {
+//       if (err) throw err;
+//      start()
+//     }
+//   );
+// };
 
 
 function exitApp() {
