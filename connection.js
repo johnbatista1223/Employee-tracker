@@ -76,6 +76,7 @@ function viewEmployees() {
   connection.query(queryString, function (err, res) {
     if (err) throw err;
     console.table('All Employees:', res);
+    start()
   })
 };
 function viewDepartments() {
@@ -83,6 +84,7 @@ function viewDepartments() {
   connection.query(queryString, function (err, res) {
     if (err) throw err;
     console.table('All Departments:', res);
+    start()
   })
 };
 function viewRoles() {
@@ -90,6 +92,7 @@ function viewRoles() {
   connection.query(queryString, function (err, res) {
     if (err) throw err;
     console.table('All Roles:', res);
+    start()
   })
 };
 function addEmployee() {
@@ -195,19 +198,23 @@ function updateRole() {
         name: "name",
         choices: updatedEmployeeList
       }, {
-        message: "enter the new role id:",
+        message: "enter the new role:",
         type: "list",
         name: "role_id",
         choices: [{ name: 'Web Developer', value: 1 }, { name: 'Accountant', value: 2 }, { name: 'Paralegal', value: 3 }, { name: 'Manager', value: 4 }, { name: 'Engineer', value: 5 }, { name: 'Sales-rep', value: 6 }]
       },
     ]).then(function (response) {
-      // console.log(response.name.charAt(0));
       connection.query("UPDATE employee SET role_id = ? WHERE id = ?", [response.role_id, parseInt(response.name.charAt(0))], function (err, data) {
-        // console.table(data);
         viewEmployees()
       })
-      // viewEmployees();
-      // start();
+      
     })
   })
 }
+
+
+function exitApp() {
+  connection.end();
+  console.log("Have a good one!");
+
+};
