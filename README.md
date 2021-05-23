@@ -7,7 +7,7 @@ So that you can organize and plan. in this app you can add roles and departments
 ## Installation
  you can clone code from repository in github link and bring it down to your local drive. From thier you can use visual studio code as your ide or any other is fine. you also need npm packages, my sql2,console.table, and npm inquirer.
 ## Usage
-  clone the repo from https://github.com/johnbatista1223/Employee-tracker you can use visual studio code to open terminal and start app the usage of this app is to create add and delete employees that you have in your company,
+  clone the repo from https://github.com/johnbatista1223/Employee-tracker you can use visual studio code to open terminal and start app the usage of this app is to create add and delete employees that you have in your company, this is youtube link to video https://www.youtube.com/watch?v=YgvhU4eJQ5M
  <img src= emplyee-tracker.png alt="employee-tracker" width=300>
 
 ## License
