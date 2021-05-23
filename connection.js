@@ -212,23 +212,23 @@ function updateRole() {
   })
 }
 function deleteEmployee() {
-  let queryString = 'SELECT employee.first_name , employee.last_name ,employee.id  FROM employee';
-  let updatedEmployeeList = [];
+  let queryString = 'SELECT employee.id, employee.first_name, employee.last_name FROM employee';
   connection.query(queryString, function (err, res) {
     if (err) throw err;
-    res.forEach((element) => {
-      updatedEmployeeList.push(`${element.id} ${element.first_name} ${element.last_name}`);
+      const deleteEmployeeChoices = res.map(({ id, first_name, last_name }) => ({
+        value: id, name: `${id} ${first_name} ${last_name}`
+      }));
       // console.log(updatedEmployeeList)
-    })
+    
     inquirer.prompt([
       {
         message: "which employee would you like to delete?",
         type: "list",
-        name: "name",
-        choices: updatedEmployeeList
+        name: "employeeId",
+        choices: deleteEmployeeChoices
       },
     ]).then(function (response) {
-      connection.query("DELETE FROM employee WHERE ?", [response.first_name,response.last_name], function (err, data) {
+      connection.query("DELETE FROM employee WHERE id = ?", [response.employeeId], function (err, data) {
         viewEmployees()
       })
       
